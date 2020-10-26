@@ -4,19 +4,28 @@ This discord bot will be able to give and take away roles at a users command, wi
 and the roles each command can access can be set aswell. You can have infinite role commands, and each command can only work for people with a certain role
 
 ```javascript
+
+
 {
-    "colors" : {
-        "command":"Color", //Command Name
-        "requiredRole":"@everyone" //Role required to use the command
-        "maxAllowedRoles":1, //Maximum roles allowed at a time from the list. ie: ?color Red; ?color Green; will remove the Red role from the user, as they can only have one role 
+    "color" : { //Command Name
+        "requiredRole":"@everyone", //Role required to use the command
+        "allowedOneRole":true , //if the user can only have one role from the list at a time. Bot will remove all roles then add the requested role
         "colors": ["Red", "Blue", "Green"] //Roles this bot can access
     },
-    "chatAccess": {
-        "command":"chat",
-        "requiredRole":"@everyone"
-        "maxAllowedRoles":0,
+    "chat": {
+        "requiredRole":"@everyone",
+        "allowedOneRole":false,
         "roles":["spreadsheets", "lfg", "spam"]
     }
 }
 
+```
+
+
+Config.json: 
+```javascript
+{
+  "prefix":"<Desired prefix goes here>",
+  "token":"<Paste bot token here>"
+}
 ```
