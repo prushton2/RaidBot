@@ -68,7 +68,7 @@ async def on_message(ctx):
                 await ctx.channel.send("You dont have permission to use this command")
                 return
 
-            roleNeedsRemoval = syntax in [i.name.lower() for i in userRoles]
+            roleNeedsRemoval = syntax.lower() in [i.name.lower() for i in userRoles]
             print(f"Role needs removal: {roleNeedsRemoval}")
 
             if(command["allowedOneRole"]):
