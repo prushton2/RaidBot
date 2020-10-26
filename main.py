@@ -45,6 +45,15 @@ async def on_message(ctx):
     if(not ctx.content.startswith(prefix)):
         return
 
+    if(ctx.content.startswith(prefix + "help")):
+        helpEmbed = discord.Embed(title=f"Commands", color=0x00ff00)
+        for i in commandJson:
+            helpEmbed.add_field(name=i, value="-", inline=False)
+            helpEmbed.add_field(name=f"Required Role", value=f"{commandJson[i]['requiredRole']}")
+            helpEmbed.add_field(name=f"Roles ", value=f"{', '.join(commandJson[i]['roles'])}")
+        await ctx.channel.send(embed=helpEmbed)
+        return
+
 
     for command in commandNames:
         if(ctx.content.startswith(prefix+command)):
