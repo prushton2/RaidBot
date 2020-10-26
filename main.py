@@ -37,6 +37,10 @@ async def on_message(ctx):
     if(ctx.author == bot.user): 
         return
 
+    print("--------------------------")
+    print(f"Author : {ctx.author}")
+    print(f"Content: {ctx.content}")
+
     prefix = config.load()["prefix"]
     syntaxArray = ctx.content.split(" ")
     syntax = " ".join(syntaxArray[1:])
@@ -70,11 +74,15 @@ async def on_message(ctx):
                 for role in command["roles"]:
                     if(role in [i.name.lower() for i in userRoles]):
                         await ctx.author.remove_roles(getRoleByName(ctx, role))
+                        print(f"removed role {role}")
 
             if(not roleNeedsRemoval):
                 await ctx.author.add_roles(getRoleByName(ctx, syntax))
+                print(f"Added role {syntax}")
             else:
                 await ctx.author.remove_roles(getRoleByName(ctx, syntax))
+                print(f"Removed role {syntax}")
+
 
 
             return
