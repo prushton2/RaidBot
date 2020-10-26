@@ -69,7 +69,8 @@ async def on_message(ctx):
                 return
 
             roleNeedsRemoval = syntax in [i.name.lower() for i in userRoles]
-            
+            print(f"Role needs removal: {roleNeedsRemoval}")
+
             if(command["allowedOneRole"]):
                 for role in command["roles"]:
                     if(role in [i.name.lower() for i in userRoles]):
@@ -78,9 +79,12 @@ async def on_message(ctx):
 
             if(not roleNeedsRemoval):
                 await ctx.author.add_roles(getRoleByName(ctx, syntax))
+                await ctx.channel.send(f"Added role {syntax}")
                 print(f"Added role {syntax}")
+
             else:
                 await ctx.author.remove_roles(getRoleByName(ctx, syntax))
+                await ctx.channel.send(f"Removed role {syntax}")
                 print(f"Removed role {syntax}")
 
 
