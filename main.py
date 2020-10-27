@@ -16,10 +16,11 @@ def getRoleByName(ctx, name):
 
 pyc = __import__("pyconfig")
 jsm = __import__("jsonmanager")
+grp = __import__("group")
 
 config = jsm.JsonManager(pyc.configPath)
 commandJsonClass = jsm.JsonManager(pyc.commandsPath)
-
+allGroups = []
 commandNames = []
 
 for key in commandJsonClass.load():
@@ -52,10 +53,13 @@ async def on_message(ctx):
     if(ctx.content.startswith(prefix + "help")):
         helpEmbed = discord.Embed(title=f"Commands", color=0x00ff00)
         for i in commandJson: 
-            helpEmbed.add_field(name=f"{i.capitalize()} command", value=f"{prefix}{i}", inline=False)
+            helpEmbed.add_field(name=f"{i.capitalize()} command", value=f"{prefix}{i}")
             helpEmbed.add_field(name="Required Role", value=f"{commandJson[i]['requiredRole']}")
-            helpEmbed.add_field(name="Roles ", value=f"{', '.join(commandJson[i]['roles'])}\n  ")
-            # helpEmbed.
+            helpEmbed.add_field(name="Roles ", value=f"{', '.join(commandJson[i]['roles'])}", inline=False)
+        helpEmbed.add_field(name="creategroup <name>", value="Create a group")
+        helpEmbed.add_field(name="joingroup <name>", value="Join a group")
+        helpEmbed.add_field(name="leavegroup <name>", value="Leave a group")
+        helpEmbed.add_field(name="groupinfo <name>", value="Get info on a group")
         await ctx.channel.send(embed=helpEmbed)
         return
 
@@ -87,6 +91,33 @@ async def on_message(ctx):
                 await ctx.author.remove_roles(getRoleByName(ctx, syntax))
                 await ctx.channel.send(f"Removed role {syntax}")
                 print(f"Removed role {syntax}")
+            return
+    if(ctx.content.startswith(prefix+"creategroup")):
+        if(syntax != ""):
+            allGroups.append(grp.Group(syntax, ctx.author.name))
+            await ctx.channel.send(f"Created Group {syntax}")
+        else:
+            await ctx.channel.send("Enter a group name")
+    
+    if(ctx.content.startswith(prefix+"joingroup")):
+        for i in allGroups:
+            if(i.name == syntax):
+                i.add_member(ctx.author.name)
+    
+    if(ctx.content.startswith(prefix+"leavegroup")):
+        for i in allGroups:
+            if(i.name == syntax):
+                i.remove_member(ctx.author.name)
+                await ctx.channel.send(f"You have left the group {i.name}")
+                if(len(i.users) == 0):
+                    allGroups.remove(i)
+
+    if(ctx.content.startswith(prefix+"groupinfo")):
+        for i in allGroups:
+            if(i.name == syntax):
+                embed = discord.Embed(title=i.name, color=0x00ff00)
+                embed.add_field(name="Users", value=", ".join(i.users))
+                await ctx.channel.send(embed=embed)
 
 
 
