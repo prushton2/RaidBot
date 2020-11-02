@@ -92,34 +92,5 @@ async def on_message(ctx):
                 await ctx.channel.send(f"Removed role {syntax}")
                 print(f"Removed role {syntax}")
             return
-    if(ctx.content.startswith(prefix+"creategroup")):
-        if(syntax != ""):
-            allGroups.append(grp.Group(syntax, ctx.author.name))
-            await ctx.channel.send(f"Created Group {syntax}")
-        else:
-            await ctx.channel.send("Enter a group name")
-    
-    if(ctx.content.startswith(prefix+"joingroup")):
-        for i in allGroups:
-            if(i.name == syntax):
-                i.add_member(ctx.author.name)
-    
-    if(ctx.content.startswith(prefix+"leavegroup")):
-        for i in allGroups:
-            if(i.name == syntax):
-                i.remove_member(ctx.author.name)
-                await ctx.channel.send(f"You have left the group {i.name}")
-                if(len(i.users) == 0):
-                    allGroups.remove(i)
 
-    if(ctx.content.startswith(prefix+"groupinfo")):
-        for i in allGroups:
-            if(i.name == syntax):
-                embed = discord.Embed(title=i.name, color=0x00ff00)
-                embed.add_field(name="Users", value=", ".join(i.users))
-                await ctx.channel.send(embed=embed)
-
-
-
-            return
 bot.run(config.load()["token"])
