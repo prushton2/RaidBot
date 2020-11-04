@@ -23,8 +23,13 @@ commandJsonClass = jsm.JsonManager(pyc.commandsPath)
 allGroups = []
 commandNames = []
 
-for key in commandJsonClass.load():
+tempcommandJson = commandJsonClass.load()
+tempcommandJson = tempcommandJson['commands']
+
+for key in tempcommandJson:
     commandNames.append(key)
+
+print(commandNames)
 
 bot = commands.Bot(command_prefix= config.load()["prefix"])
 
@@ -46,13 +51,14 @@ async def on_message(ctx):
     syntaxArray = ctx.content.split(" ")
     syntax = " ".join(syntaxArray[1:])
     commandJson = commandJsonClass.load()
+    commandJson = commandJson['commands']
 
     if(not ctx.content.startswith(prefix)):
         return
 
     if(ctx.content.startswith(prefix + "help")):
         helpEmbed = discord.Embed(title=f"Commands", color=0x00ff00)
-        for i in commandJson: 
+        for i in commandJson:
             helpEmbed.add_field(name=f"{i.capitalize()} command", value=f"{prefix}{i}")
             helpEmbed.add_field(name="Required Role", value=f"{commandJson[i]['requiredRole']}")
             helpEmbed.add_field(name="Roles ", value=f"{', '.join(commandJson[i]['roles'])}", inline=False)
@@ -62,18 +68,18 @@ async def on_message(ctx):
 
     for command in commandNames:
         if(ctx.content.startswith(prefix+command)):
-            command = commandJson[command]
+            commandObject = commandJson[command]
             userRoles = ctx.author.roles
 
-            if( not (command["requiredRole"] in [i.name.lower() for i in userRoles])):
+            if( not (commandObject["requiredRole"] in [i.name.lower() for i in userRoles])):
                 await ctx.channel.send("You dont have permission to use this command")
                 return
 
             roleNeedsRemoval = syntax.lower() in [i.name.lower() for i in userRoles]
             print(f"Role needs removal: {roleNeedsRemoval}")
 
-            if(command["allowedOneRole"]):
-                for role in command["roles"]:
+            if(commandObject["allowedOneRole"]):
+                for role in commandObject["roles"]:
                     if(role in [i.name.lower() for i in userRoles]):
                         await ctx.author.remove_roles(getRoleByName(ctx, role))
                         print(f"removed role {role}")
