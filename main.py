@@ -56,10 +56,6 @@ async def on_message(ctx):
             helpEmbed.add_field(name=f"{i.capitalize()} command", value=f"{prefix}{i}")
             helpEmbed.add_field(name="Required Role", value=f"{commandJson[i]['requiredRole']}")
             helpEmbed.add_field(name="Roles ", value=f"{', '.join(commandJson[i]['roles'])}", inline=False)
-        helpEmbed.add_field(name="creategroup <name>", value="Create a group")
-        helpEmbed.add_field(name="joingroup <name>", value="Join a group")
-        helpEmbed.add_field(name="leavegroup <name>", value="Leave a group")
-        helpEmbed.add_field(name="groupinfo <name>", value="Get info on a group")
         await ctx.channel.send(embed=helpEmbed)
         return
 
