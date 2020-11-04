@@ -80,12 +80,12 @@ async def on_message(ctx):
 
             if(not roleNeedsRemoval):
                 await ctx.author.add_roles(getRoleByName(ctx, syntax))
-                await ctx.channel.send(f"Added role {syntax}")
+                await ctx.channel.send(f"Added {command} {syntax}")
                 print(f"Added role {syntax}")
 
             else:
                 await ctx.author.remove_roles(getRoleByName(ctx, syntax))
-                await ctx.channel.send(f"Removed role {syntax}")
+                await ctx.channel.send(f"Removed {command} {syntax}")
                 print(f"Removed role {syntax}")
             return
 
