@@ -3,9 +3,12 @@ jsm = __import__("jsonmanager")
 
 
 class UserActivityClass:
-    def __init__(self, jsonFile):
+    def __init__(self, jsonFile, role, bot):
         self.jsonFile = jsonFile
         self.jsonManager = jsm.JsonManager(self.jsonFile)
+        self.ExpireTime = self.jsonManager.load()["ActiveRoleExpireTime"]
+        self.role = role
+        self.bot = bot
 
     def newUser(self, id, name):
         self.file = self.jsonManager.load()
@@ -23,5 +26,9 @@ class UserActivityClass:
         except:
             self.newUser(id, name)
         self.jsonManager.save(self.file)
+
+        
+
+
 
     

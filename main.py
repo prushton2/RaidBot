@@ -8,11 +8,19 @@ import colorama
 import time
 
 
+intents = discord.Intents.default()
+intents.members = True
+
 def getRoleByName(ctx, name):
     allServerRoles = ctx.guild.roles
     for i in allServerRoles:
         if(i.name.lower() == name.lower()):
             return i
+
+def fetchMemberFromId(ctx, id):
+    member = ctx.guild.get_member(id)
+    return(member)
+
 
 pyc = __import__("pyconfig")
 jsm = __import__("jsonmanager")
@@ -20,8 +28,11 @@ grp = __import__("group")
 ua  = __import__("userActivity")
 
 config = jsm.JsonManager(pyc.configPath)
+
+bot = commands.Bot(command_prefix= config.load()["prefix"], intents=intents)
+
 commandJsonClass = jsm.JsonManager(pyc.commandsPath)
-userActivity = ua.UserActivityClass(pyc.userActivityPath)
+userActivity = ua.UserActivityClass(pyc.userActivityPath, None, bot)
 
 allGroups = []
 commandNames = []
@@ -34,7 +45,6 @@ for key in tempcommandJson:
 
 print(commandNames)
 
-bot = commands.Bot(command_prefix= config.load()["prefix"])
 
 @bot.event
 async def on_ready():
@@ -42,15 +52,35 @@ async def on_ready():
     print("Bot is ready")
 
 @bot.event
-async def on_message(ctx):
+async def on_message(ctx):    
     if(ctx.author == bot.user): 
         return
 
-    userActivity.updateActivity(ctx.author.id, ctx.author.name)
 
     print("--------------------------")
     print(f"Author : {ctx.author}")
     print(f"Content: {ctx.content}")
+
+
+    print("--------------------------")
+
+    userActivity.role = getRoleByName(ctx, config.load()["activeRole"])
+    userActivity.updateActivity(ctx.author.id, ctx.author.name)
+    
+    userActivity.file = userActivity.jsonManager.load()["users"]
+    userActivity.now = time.time()
+
+    for i in userActivity.file:
+        user = userActivity.jsonManager.load()["users"][i]
+        member = ctx.guild.get_member(int(i))
+        if(user["lastMessageTimestamp"] > time.time() - userActivity.ExpireTime):
+            print("adding role to", member)
+            await member.add_roles(userActivity.role)
+        else:
+            print("removing role from", member)
+            await member.remove_roles(userActivity.role)
+            # userActivity.removeUser(i)
+
 
     prefix = config.load()["prefix"]
     syntaxArray = ctx.content.split(" ")
