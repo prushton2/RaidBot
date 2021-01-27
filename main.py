@@ -17,9 +17,12 @@ def getRoleByName(ctx, name):
 pyc = __import__("pyconfig")
 jsm = __import__("jsonmanager")
 grp = __import__("group")
+ua  = __import__("userActivity")
 
 config = jsm.JsonManager(pyc.configPath)
 commandJsonClass = jsm.JsonManager(pyc.commandsPath)
+userActivity = ua.UserActivityClass(pyc.userActivityPath)
+
 allGroups = []
 commandNames = []
 
@@ -42,6 +45,8 @@ async def on_ready():
 async def on_message(ctx):
     if(ctx.author == bot.user): 
         return
+
+    userActivity.updateActivity(ctx.author.id, ctx.author.name)
 
     print("--------------------------")
     print(f"Author : {ctx.author}")
