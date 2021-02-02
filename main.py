@@ -39,6 +39,8 @@ commandNames = []
 
 tempcommandJson = commandJsonClass.load()
 tempcommandJson = tempcommandJson['commands']
+userActivity.updateFileFormat()
+
 
 for key in tempcommandJson:
     commandNames.append(key)
