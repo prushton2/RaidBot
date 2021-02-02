@@ -32,14 +32,18 @@ class UserActivityClass:
         self.jsonManager.save(self.file)
         
 
-    def removeScore(self): # removes 1 point from everyone.
+    def addScore(self, score): # removes 1 point from everyone.
         self.file = self.jsonManager.load()
         
         for i in self.file["users"]:
-            self.file["users"][i]["points"] -= .5
+            self.file["users"][i]["points"] += score
             self.file["users"][i]["points"] = max(self.file["users"][i]["points"], 0)
+            self.file["users"][i]["points"] = min(self.file["users"][i]["points"], 10)
+
         
         self.jsonManager.save(self.file)
+
+    
         
 
 

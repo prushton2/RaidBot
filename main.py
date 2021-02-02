@@ -50,12 +50,13 @@ print(commandNames)
 
 @tasks.loop(hours=24)
 async def remove_score():
-    userActivity.removeScore()
+    userActivity.addScore(-.5)
 
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game(name=config.load()["prefix"]+"help"))
     remove_score.start()
+    userActivity.addScore(.5)
     print("Bot is ready")
 
 @bot.event
