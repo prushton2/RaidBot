@@ -3,6 +3,7 @@ import asyncio
 import pafy
 
 from discord.ext import commands
+from discord.ext import tasks
 import os
 import colorama
 import time
@@ -47,10 +48,14 @@ for key in tempcommandJson:
 
 print(commandNames)
 
+@tasks.loop(hours=24)
+async def remove_score():
+    userActivity.removeScore()
 
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game(name=config.load()["prefix"]+"help"))
+    remove_score.start()
     print("Bot is ready")
 
 @bot.event
@@ -67,21 +72,18 @@ async def on_message(ctx):
     print("--------------------------")
 
     userActivity.role = getRoleByName(ctx, config.load()["activeRole"])
-    userActivity.updateActivity(ctx.author.id, ctx.author.name)
     
     userActivity.file = userActivity.jsonManager.load()["users"]
     userActivity.now = time.time()
+    
+    member = ctx.guild.get_member(int(ctx.author.id))
 
-    for i in userActivity.file:
-        user = userActivity.jsonManager.load()["users"][i]
-        member = ctx.guild.get_member(int(i))
-        if(user["lastMessageTimestamp"] > time.time() - userActivity.ExpireTime):
-            print("adding role to", member)
-            await member.add_roles(userActivity.role)
-        else:
-            print("removing role from", member)
-            await member.remove_roles(userActivity.role)
-            # userActivity.removeUser(i)
+    if(userActivity.updateActivity(ctx.author.id, ctx.author.name)):
+        print("adding role")
+        await member.add_roles(userActivity.role)
+    else:
+        print("removing role")
+        await member.remove_roles(userActivity.role)
 
 
     prefix = config.load()["prefix"]
