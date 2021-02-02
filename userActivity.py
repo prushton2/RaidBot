@@ -25,7 +25,7 @@ class UserActivityClass:
         if(self.file["version"] != self.version):
             print("needs version update")
             for i in self.file["users"]:
-                self.file["users"][i]["points"] = 0
+                self.file["users"][i]["points"] = 7.5 if (self.file["users"][i]["lastMessageTimestamp"] > time.time() - self.ExpireTime) else 0
         else:
             print("file doesnt need updating")
         self.file["version"] = self.version
