@@ -36,7 +36,7 @@ class UserActivityClass:
         self.file = self.jsonManager.load()
         
         for i in self.file["users"]:
-            self.file["users"][i]["points"] -= 1
+            self.file["users"][i]["points"] -= .5
             self.file["users"][i]["points"] = max(self.file["users"][i]["points"], 0)
         
         self.jsonManager.save(self.file)
