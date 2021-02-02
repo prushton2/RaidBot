@@ -1,7 +1,7 @@
-# RoleBot
+# RaidBot
 
 This discord bot is designed to meet the needs of a Destiny 2 LFG Server. The bot is built to be able to be used by anyone else with heavy use of json files. 
-
+Activity role is automatically applied and removed. Users gain points for messages sent. 5 points grants the active role, and a user can have 10 points maximum. one point is removed every 24 hours.
 
 commands.json
 ```javascript
