@@ -36,8 +36,8 @@ class UserActivityClass:
         self.file = self.jsonManager.load()
         
         for i in self.file["users"]:
-            self.file["users"][id]["points"] -= 1
-            self.file["users"][id]["points"] = max(self.file["users"][id]["points"], 0)
+            self.file["users"][i]["points"] -= 1
+            self.file["users"][i]["points"] = max(self.file["users"][i]["points"], 0)
         
         self.jsonManager.save(self.file)
         
@@ -46,13 +46,13 @@ class UserActivityClass:
     def updateActivity(self, id, name):
         self.file = self.jsonManager.load()
         id = str(id)
-        messageSpamTimeout = 60 #in seconds, used to not add points while a user is spamming
+        messageSpamTimeout = 30 #in seconds, used to not add points while a user is spamming
         try:
             self.file["users"][id]["name"] = name
-            self.file["users"][id]["lastMessageTimestamp"] = time.time()
 
-            if(self.file["users"][id]["lastMessageTimestamp"] < time.time() - 60): #prevent message spam to add up points too quickly
+            if(self.file["users"][id]["lastMessageTimestamp"] < time.time() - messageSpamTimeout): #prevent message spam to add up points too quickly
                 self.file["users"][id]["points"] += 1
+                self.file["users"][id]["lastMessageTimestamp"] = time.time()
 
             self.file["users"][id]["points"] = min(self.file["users"][id]["points"], 10) #max a users points at 10
         except:

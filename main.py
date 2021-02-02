@@ -69,7 +69,7 @@ async def on_message(ctx):
     print(f"Content: {ctx.content}")
 
 
-    print("--------------------------")
+    print("----------")
 
     userActivity.role = getRoleByName(ctx, config.load()["activeRole"])
     
@@ -79,10 +79,10 @@ async def on_message(ctx):
     member = ctx.guild.get_member(int(ctx.author.id))
 
     if(userActivity.updateActivity(ctx.author.id, ctx.author.name)):
-        print("adding role")
+        print("adding active role")
         await member.add_roles(userActivity.role)
     else:
-        print("removing role")
+        print("removing active role")
         await member.remove_roles(userActivity.role)
 
 
