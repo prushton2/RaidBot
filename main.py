@@ -25,7 +25,6 @@ def fetchMemberFromId(ctx, id):
 
 pyc = __import__("pyconfig")
 jsm = __import__("jsonmanager")
-grp = __import__("group")
 ua  = __import__("userActivity")
 
 config = jsm.JsonManager(pyc.configPath)
