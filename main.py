@@ -49,7 +49,7 @@ for key in tempcommandJson:
 
 print(commandNames)
 
-@tasks.loop(seconds=5)
+@tasks.loop(hours=24)
 async def remove_score():
     print("Daily Reset")
     global needRoleUpdate
