@@ -102,8 +102,11 @@ async def on_message(ctx):
                 member = ctx.guild.get_member(int(i.id))
                 if(userActivity.file["users"][str(i.id)]["points"] > 5):
                     member.add_roles(userActivity.active)
+                    print("adding roles")
                 else:
                     member.remove_roles(userActivity.active)
+                    print("removing roles")
+
             except:
                 print("User:", i)
 
