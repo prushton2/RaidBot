@@ -42,6 +42,7 @@ tempcommandJson = commandJsonClass.load()
 tempcommandJson = tempcommandJson['commands']
 userActivity.updateFileFormat()
 
+needRoleUpdate = True
 
 for key in tempcommandJson:
     commandNames.append(key)
@@ -50,7 +51,11 @@ print(commandNames)
 
 @tasks.loop(hours=24)
 async def remove_score():
+    print("Daily Reset")
+    global needRoleUpdate
+    needRoleUpdate = True
     userActivity.addScore(-.5)
+
 
 @bot.event
 async def on_ready():
@@ -62,7 +67,7 @@ async def on_ready():
 @bot.event
 async def on_message(ctx):    
     if(ctx.author == bot.user): 
-        return
+        return           
 
 
     print("--------------------------")
@@ -85,6 +90,22 @@ async def on_message(ctx):
     else:
         print("removing active role")
         await member.remove_roles(userActivity.role)
+
+    global needRoleUpdate
+
+    if(needRoleUpdate):
+        print("Role doesnt need updating")
+        needRoleUpdate = False
+        for i in ctx.guild.members:
+            try:
+                print("User:", i, userActivity.file["users"][str(i.id)])
+                member = ctx.guild.get_member(int(i.id))
+                if(userActivity.file["users"][str(i.id)]["points"] > 5):
+                    member.add_roles(userActivity.active)
+                else:
+                    member.remove_roles(userActivity.active)
+            except:
+                print("User:", i)
 
 
     prefix = config.load()["prefix"]
