@@ -101,13 +101,14 @@ async def on_message(ctx):
                 print("User:", i, userActivity.file["users"][str(i.id)])
                 if(userActivity.file["users"][str(i.id)]["points"] > 5):
                     print("adding roles")
-                    i.add_roles(userActivity.active)
+                    i.add_roles(userActivity.role)
                 else:
                     print("removing roles")
-                    i.remove_roles(userActivity.active)
-
+                    i.remove_roles(userActivity.role)
             except:
                 print("User:", i)
+
+
 
 
     prefix = config.load()["prefix"]
