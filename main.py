@@ -99,11 +99,13 @@ async def on_message(ctx):
             try:
                 print("User:", i, userActivity.file["users"][str(i.id)])
                 if(userActivity.file["users"][str(i.id)]["points"] > 5):
-                    print("adding roles")
+                    print("attempting to add roles")
                     i.add_roles(userActivity.role)
+                    print("adding roles")
                 else:
-                    print("removing roles")
+                    print("attempting to remove roles")
                     i.remove_roles(userActivity.role)
+                    print("removing roles")
             except:
                 print("User:", i)
 
