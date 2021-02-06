@@ -49,7 +49,7 @@ for key in tempcommandJson:
 
 print(commandNames)
 
-@tasks.loop(hours=24)
+@tasks.loop(seconds=5)
 async def remove_score():
     print("Daily Reset")
     global needRoleUpdate
@@ -99,13 +99,12 @@ async def on_message(ctx):
         for i in ctx.guild.members:
             try:
                 print("User:", i, userActivity.file["users"][str(i.id)])
-                member = ctx.guild.get_member(int(i.id))
                 if(userActivity.file["users"][str(i.id)]["points"] > 5):
-                    member.add_roles(userActivity.active)
                     print("adding roles")
+                    i.add_roles(userActivity.active)
                 else:
-                    member.remove_roles(userActivity.active)
                     print("removing roles")
+                    i.remove_roles(userActivity.active)
 
             except:
                 print("User:", i)
