@@ -23,6 +23,16 @@ commands.json
 
 ```
 
+pyconfig.py
+```python
+
+
+commandsPath = "path-to-commands.json"
+configPath = "path-to-config.json"
+userDataPath = "path-to-userData.json"
+seperator = "\\"
+
+```
 
 config.json: 
 ```javascript
@@ -36,7 +46,7 @@ config.json:
 
 The userActivity.json file only needs to be initialized to this, nothing else needs to be done to it.
 
-userActivity.json
+userData.json
 ```javascript
 {
     "ActiveRoleExpireTime": 604800, //Number of seconds until the active role expires. Is set to 1 week by default
