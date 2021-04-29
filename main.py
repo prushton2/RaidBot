@@ -127,16 +127,21 @@ async def on_message(ctx):
 
     if(ctx.content.startswith(prefix + "help")): #Iteratively adds all commands and parameters from commands.json to an embed and sends it
         helpEmbed = discord.Embed(title=f"Commands", color=0x00ff00)
+        
+        helpEmbed.add_field(name="Bungie Api Commands", value="setname <name>\n\nupdate\n")
+        helpEmbed.add_field(name="-----------", value="Saves your username and updates your roles\n\nUpdates your roles based on your D2 Account\n")
+        
         for i in commandJson:
-            helpEmbed.add_field(name=f"{i.capitalize()} command", value=f"{prefix}{i}")
+            helpEmbed.add_field(name=f"{i.capitalize()} command", value=f"{prefix}{i}", inline=False)
             helpEmbed.add_field(name="Required Role", value=f"{commandJson[i]['requiredRole']}")
-            helpEmbed.add_field(name="Roles ", value=f"{', '.join(commandJson[i]['roles'])}", inline=False)
+            helpEmbed.add_field(name="Roles ", value=f"{', '.join(commandJson[i]['roles'])}")
         await ctx.channel.send(embed=helpEmbed)
         return #Exits to prevent further commands, so you cannot make a command called help
 
     if(ctx.content.startswith(prefix + "setname")):
         username = lookupUser.getUsername(syntax)
         userData.setApiName(ctx.author.id, username)
+        await ctx.channel.send(f"Saved your username as {username}")
 
 
     if(ctx.content.startswith(prefix + "update") or ctx.content.startswith(prefix + "setname")):
@@ -151,6 +156,7 @@ async def on_message(ctx):
             else:
                 await ctx.author.remove_roles(getRoleByName(ctx, i))
 
+        await ctx.channel.send(f"Updated your roles!")
 
         return
 
