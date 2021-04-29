@@ -19,7 +19,7 @@ class UserActivityClass:
     def removeUser(self, id):
         pass
 
-    def updateFileFormat(self):
+    def updateFileFormat(self): #oh god what happened here
         self.file = self.jsonManager.load()
         print("reading version")
         if(self.file["version"] != self.version):
@@ -32,7 +32,7 @@ class UserActivityClass:
         self.jsonManager.save(self.file)
         
 
-    def addScore(self, score): # removes 1 point from everyone.
+    def addScore(self, score): # Changes everyone's score. Used on the daily reset
         self.file = self.jsonManager.load()
         
         for i in self.file["users"]:
@@ -52,7 +52,7 @@ class UserActivityClass:
         id = str(id)
         messageSpamTimeout = 30 #in seconds, used to not add points while a user is spamming
         try:
-            self.file["users"][id]["name"] = name
+            self.file["users"][id]["name"] = name #This looks for a user before doing stuff to them. Will exit if they dont exist because of an error. Probably a more elegant way of doing this
 
             if(self.file["users"][id]["lastMessageTimestamp"] < time.time() - messageSpamTimeout): #prevent message spam to add up points too quickly
                 self.file["users"][id]["points"] += 1
