@@ -13,7 +13,7 @@ class UserDataClass:
 
     def newUser(self, id, name):
         self.file = self.jsonManager.load()
-        self.file["users"][id] = {"name":name, "points":0, "lastMessageTimestamp":time.time()} 
+        self.file["users"][id] = {"name":name, "points":0, "ApiName": "", "lastMessageTimestamp":time.time()}
         self.jsonManager.save(self.file)
 
     def removeUser(self, id):
