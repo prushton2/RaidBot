@@ -52,7 +52,7 @@ class UserDataClass:
         newFile = self.jsonManager.load()
 
         for i in self.file["users"]:
-            if(self.file["users"][i]["points"] == 0):
+            if(self.file["users"][i]["points"] == 0 and self.file["users"][i]["APiName"] == ""):
                 newFile["users"].pop(i)
 
         self.jsonManager.save(newFile)
