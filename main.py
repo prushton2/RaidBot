@@ -137,8 +137,20 @@ async def on_message(ctx):
         username = lookupUser.getUsername(syntax)
         userData.setApiName(ctx.author.id, username)
 
-    if(ctx.content.startswith(prefix + "update")):
-        pass
+
+    if(ctx.content.startswith(prefix + "update") or ctx.content.startswith(prefix + "setname")):
+        
+        username = userData.getApiName(ctx.author.id)
+        itemStatus = lookupUser.getImportantItemStatus(username)
+        
+        for i in itemStatus:
+            j = itemStatus[i]
+            if(j):
+                await ctx.author.add_roles(getRoleByName(ctx, i))
+            else:
+                await ctx.author.remove_roles(getRoleByName(ctx, i))
+
+
         return
 
 
