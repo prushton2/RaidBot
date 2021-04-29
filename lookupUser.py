@@ -23,6 +23,7 @@ def getUsername(username): #This might seem redundant, but its important: You ca
                            #Usernames dont change, profile names do. This simply gets the username from a profile name so it can be saved and referenced  
     url = f"/Destiny2/SearchDestinyPlayer/-1/{username}" 
     res = requests.get(root_url+url, headers=HEADERS)
+    print(res.text)
     username = json.loads(res.text)["Response"][0]["displayName"]
     return username
 
@@ -58,6 +59,8 @@ def getImportantItemStatus(username):
 
     for i in importantItems:
         j = importantItems[i]
-        collectionsState[i] = (collections[j]["state"] == 0)
+        collectionsState[i] = not (collections[j]["state"] in [1, 2, 4])
 
     return collectionsState
+
+print(getImportantItemStatus("Akirro"))
