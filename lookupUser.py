@@ -62,5 +62,3 @@ def getImportantItemStatus(username):
         collectionsState[i] = not (collections[j]["state"] in [1, 2, 4])
 
     return collectionsState
-
-print(getImportantItemStatus("Akirro"))
