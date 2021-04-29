@@ -51,7 +51,6 @@ class UserActivityClass:
             if(self.file["users"][i]["points"] == 0):
                 newFile["users"].pop(i)
 
-        print(newFile)
         self.jsonManager.save(newFile)
         
 
