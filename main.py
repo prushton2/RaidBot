@@ -26,6 +26,7 @@ def fetchMemberFromId(ctx, id):
 pyc = __import__("pyconfig")
 jsm = __import__("jsonmanager")
 ud  = __import__("userData")
+lookupUser = __import__("lookupUser")
 
 config = jsm.JsonManager(pyc.configPath)
 
@@ -132,9 +133,9 @@ async def on_message(ctx):
         await ctx.channel.send(embed=helpEmbed)
         return #Exits to prevent further commands, so you cannot make a command called help
 
-    if(ctx.content.startswith(prefix + "setName")):
-        name = syntax
-        userData.setApiName(ctx.author.id, name)
+    if(ctx.content.startswith(prefix + "setname")):
+        username = lookupUser.getUsername(syntax)
+        userData.setApiName(ctx.author.id, username)
 
     if(ctx.content.startswith(prefix + "update")):
         pass
