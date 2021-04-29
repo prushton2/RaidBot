@@ -29,7 +29,7 @@ class UserDataClass:
         elif(self.file["version"] == 2.0):
             print("needs version update")
             for i in self.file["users"]:
-                self.file["users"][i]["name"] == ""
+                self.file["users"][i]["ApiName"] = ""
         else:
             print("file doesnt need updating")
         self.file["version"] = self.version
@@ -77,6 +77,20 @@ class UserDataClass:
 
         return self.file["users"][id]["points"] >= 5
 
+    def setApiName(self, id, name):
+        self.file = self.jsonManager.load()
+        id = str(id)
+        self.file["users"][id]["ApiName"] = name
+        self.jsonManager.save(self.file)
+    
+    def getApiName(self, id):
+        self.file = self.jsonManager.load()
+        id = str(id)
+        return self.file["users"][id]["ApiName"]
+
+
+
+    
         
 
 
