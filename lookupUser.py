@@ -19,7 +19,7 @@ collectibleState = {0:"Acquired", 1:"Not Acquired", 2:"Obscured", 4:"Invisible",
 #This is the location of the collections menu incase I forget
 # collections = json.loads(res.text)["Response"]["profileCollectibles"]["data"]["collectibles"]
 
-def getUserName(username): #This might seem redundant, but its important: You can enter a profile name into the api, and it will return a username. 
+def getUsername(username): #This might seem redundant, but its important: You can enter a profile name into the api, and it will return a username. 
                            #Usernames dont change, profile names do. This simply gets the username from a profile name so it can be saved and referenced  
     url = f"/Destiny2/SearchDestinyPlayer/-1/{username}" 
     res = requests.get(root_url+url, headers=HEADERS)
@@ -62,4 +62,4 @@ def getImportantItemStatus(username):
 
     return collectionsState
 
-print(getUserName("Master Oobway"))
+print(getUsername("Master Oobway"))
