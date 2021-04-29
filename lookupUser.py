@@ -61,5 +61,3 @@ def getImportantItemStatus(username):
         collectionsState[i] = (collections[j]["state"] == 0)
 
     return collectionsState
-
-print(getUsername("Master Oobway"))
