@@ -133,11 +133,13 @@ async def on_message(ctx):
         return #Exits to prevent further commands, so you cannot make a command called help
 
     if(ctx.content.startswith(prefix + "setName")):
-        name = syntax[0]
-
+        name = syntax
+        userData.setApiName(ctx.author.id, name)
 
     if(ctx.content.startswith(prefix + "update")):
         pass
+        return
+
 
     for command in commandNames: #Iterate through each command to see if the user entered a valid command
         if(ctx.content.startswith(prefix+command)):
