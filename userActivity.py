@@ -43,7 +43,16 @@ class UserActivityClass:
         
         self.jsonManager.save(self.file)
 
-    
+    def pruneUsers(self):
+        self.file = self.jsonManager.load()
+        newFile = self.jsonManager.load()
+
+        for i in self.file["users"]:
+            if(self.file["users"][i]["points"] == 0):
+                newFile["users"].pop(i)
+
+        print(newFile)
+        self.jsonManager.save(newFile)
         
 
 

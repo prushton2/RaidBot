@@ -55,6 +55,7 @@ async def remove_score():
     global needRoleUpdate
     needRoleUpdate = True
     userActivity.addScore(-.5)
+    userActivity.pruneUsers()
 
 
 @bot.event
@@ -131,7 +132,12 @@ async def on_message(ctx):
         await ctx.channel.send(embed=helpEmbed)
         return #Exits to prevent further commands, so you cannot make a command called help
 
-    #Add the set username command here probably
+    if(ctx.content.startswith(prefix + "setName")):
+        name = syntax[0]
+
+
+    if(ctx.content.startswith(prefix + "update")):
+        pass
 
     for command in commandNames: #Iterate through each command to see if the user entered a valid command
         if(ctx.content.startswith(prefix+command)):
