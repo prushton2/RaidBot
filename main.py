@@ -98,7 +98,8 @@ async def on_message(ctx):
     if(needRoleUpdate): #so this block adds or removes the active role. It will only update every 24 hours to prevent me from getting blacklisted from the API
         print("Role doesnt need updating")
         needRoleUpdate = False
-        for i in ctx.guild.members:
+        for j in userData.jsonManager.load()["users"]:
+            i = fetchMemberFromId(ctx, int(j))
             try:
                 print("User:", i, userData.file["users"][str(i.id)])
                 if(userData.file["users"][str(i.id)]["points"] > 5):
