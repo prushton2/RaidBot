@@ -46,3 +46,9 @@ userActivity.json
     }
 }
 ```
+
+<br><br>
+TODO:
+* Delete inactive users from userActivity.json
+* Add the base username to the userActivity.json file
+* Restructure command setup to allow built in commands
