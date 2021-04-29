@@ -25,14 +25,14 @@ def fetchMemberFromId(ctx, id):
 
 pyc = __import__("pyconfig")
 jsm = __import__("jsonmanager")
-ua  = __import__("userActivity")
+ud  = __import__("userData")
 
 config = jsm.JsonManager(pyc.configPath)
 
 bot = commands.Bot(command_prefix= config.load()["prefix"], intents=intents)
 
 commandJsonClass = jsm.JsonManager(pyc.commandsPath)
-userActivity = ua.UserActivityClass(pyc.userActivityPath, None, bot)
+userData = ud.UserDataClass(pyc.userDataPath, None, bot)
 
 allGroups = []
 commandNames = []
@@ -40,7 +40,7 @@ commandNames = []
 tempcommandJson = commandJsonClass.load() #This is me being lazy. Aything with "temp" in it wont be used after like 20 lines at most
 tempcommandJson = tempcommandJson['commands']
 
-userActivity.updateFileFormat() #This makes my life SO MUCH EASIER. It automatically updates the format of the userActivity file so I DONT HAVE TO. THAT FILE IS GIANT! 
+userData.updateFileFormat() #This makes my life SO MUCH EASIER. It automatically updates the format of the userActivity file so I DONT HAVE TO. THAT FILE IS GIANT! 
 
 needRoleUpdate = True
 
@@ -54,15 +54,15 @@ async def remove_score():
     print("Daily Reset")
     global needRoleUpdate
     needRoleUpdate = True
-    userActivity.addScore(-.5)
-    userActivity.pruneUsers()
+    userData.addScore(-.5)
+    userData.pruneUsers()
 
 
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game(name=config.load()["prefix"]+"help"))
     remove_score.start()
-    userActivity.addScore(.5)
+    userData.addScore(.5)
     print("Bot is ready")
 
 @bot.event
@@ -78,35 +78,35 @@ async def on_message(ctx):
 
     print("----------")
 
-    userActivity.role = getRoleByName(ctx, config.load()["activeRole"])
+    userData.role = getRoleByName(ctx, config.load()["activeRole"])
     
-    userActivity.file = userActivity.jsonManager.load()["users"]
-    userActivity.now = time.time()
+    userData.file = userData.jsonManager.load()["users"]
+    userData.now = time.time()
     
     member = ctx.guild.get_member(int(ctx.author.id))
 
-    if(userActivity.updateActivity(ctx.author.id, ctx.author.name)): #Updates the user's activity score. Returns true if the user'a activity score is above the "active" threshold
+    if(userData.updateActivity(ctx.author.id, ctx.author.name)): #Updates the user's activity score. Returns true if the user'a activity score is above the "active" threshold
         print("adding active role")
-        await member.add_roles(userActivity.role)
+        await member.add_roles(userData.role)
     else:
         print("removing active role")
-        await member.remove_roles(userActivity.role)
+        await member.remove_roles(userData.role)
 
     global needRoleUpdate
 
-    if(needRoleUpdate): #so this block adds or removes the active role. My only issue with this is the code only updates YOUR role when YOU send a message. This means active people need to send a message to be deemed "not active". Bad idea but I dont have a better way of doing this so whatever for now
+    if(needRoleUpdate): #so this block adds or removes the active role. It will only update every 24 hours to prevent me from getting blacklisted from the API
         print("Role doesnt need updating")
         needRoleUpdate = False
         for i in ctx.guild.members:
             try:
-                print("User:", i, userActivity.file["users"][str(i.id)])
-                if(userActivity.file["users"][str(i.id)]["points"] > 5):
+                print("User:", i, userData.file["users"][str(i.id)])
+                if(userData.file["users"][str(i.id)]["points"] > 5):
                     print("attempting to add roles")
-                    await i.add_roles(userActivity.role)
+                    await i.add_roles(userData.role)
                     print("adding roles")
                 else:
                     print("attempting to remove roles")
-                    await i.remove_roles(userActivity.role)
+                    await i.remove_roles(userData.role)
                     print("removing roles")
             except:
                 print("User:", i)

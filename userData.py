@@ -2,14 +2,14 @@ import time
 jsm = __import__("jsonmanager")
 
 
-class UserActivityClass:
+class UserDataClass:
     def __init__(self, jsonFile, role, bot):
         self.jsonFile = jsonFile
         self.jsonManager = jsm.JsonManager(self.jsonFile)
         self.ExpireTime = self.jsonManager.load()["ActiveRoleExpireTime"]
         self.role = role
         self.bot = bot
-        self.version = 2.0
+        self.version = 3.0
 
     def newUser(self, id, name):
         self.file = self.jsonManager.load()
@@ -22,10 +22,14 @@ class UserActivityClass:
     def updateFileFormat(self): #oh god what happened here
         self.file = self.jsonManager.load()
         print("reading version")
-        if(self.file["version"] != self.version):
+        if(self.file["version"] == 1.0):
             print("needs version update")
             for i in self.file["users"]:
                 self.file["users"][i]["points"] = 7.5 if (self.file["users"][i]["lastMessageTimestamp"] > time.time() - self.ExpireTime) else 0
+        elif(self.file["version"] == 2.0):
+            print("needs version update")
+            for i in self.file["users"]:
+                self.file["users"][i]["name"] == ""
         else:
             print("file doesnt need updating")
         self.file["version"] = self.version
