@@ -4,8 +4,13 @@ import json
 import os
 
 
+pyc = __import__("pyconfig")
+jsm = __import__("jsonmanager")
 
-HEADERS = {"X-API-Key" : "d16ea396820e48e7bfec254ab512eec4"}
+config = jsm.JsonManager(pyc.configPath)
+
+
+HEADERS = {"X-API-Key" : config.load()["BungieApiKey"]}
 
 
 root_url = "https://www.bungie.net/Platform"

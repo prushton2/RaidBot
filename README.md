@@ -45,7 +45,8 @@ config.json:
 {
     "activeRole":"Active", //The role name of people who are active
     "prefix":"<Desired prefix goes here>",
-    "token":"<Paste bot token here>"
+    "token":"<Paste bot token here>",
+    "BungieApiKey":"<Paste Bungie.net Api Key here>"
 
 }
 ```
