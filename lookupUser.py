@@ -16,7 +16,10 @@ HEADERS = {"X-API-Key" : config.load()["BungieApiKey"]}
 root_url = "https://www.bungie.net/Platform"
 
 #Items I care about
-importantItems = {"Anarchy":"2220014607", "Divinity":"1988948484", "Eyes of Tomorrow":"753200559", "Legend of Acrius":"199171389", "One Thousand Voices":"199171385", "Tarrabah":"2329697053"}
+importantItems = {
+    "Anarchy":"2220014607", "Divinity":"1988948484", "One Thousand Voices":"199171385", 
+    "Eyes of Tomorrow":"753200559", "Legend of Acrius":"199171389", "Tarrabah":"2329697053", "Vex Mythoclast":"2300465938"
+    }
 #Enum of what the "state" key means
 collectibleState = {0:"Acquired", 1:"Not Acquired", 2:"Obscured", 4:"Invisible", 8:"Cannot Afford Material Requirements", 16:"Inventory Space Unavailable", 32:"Uniqueness Violation", 64:"Purchase Disabled"}
 
