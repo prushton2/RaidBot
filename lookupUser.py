@@ -67,6 +67,6 @@ def getImportantItemStatus(username):
 
     for i in importantItems:
         j = importantItems[i]
-        collectionsState[i] = not (collections[j]["state"] in [1, 2, 4])
-
+        collectionsState[i] = (collections[j]["state"] in [0, 8, 16, 32, 64])
+        print(collections[j])
     return collectionsState
