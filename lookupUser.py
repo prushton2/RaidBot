@@ -21,7 +21,7 @@ importantItems = {
     "Eyes of Tomorrow":"753200559", "Legend of Acrius":"199171389", "Tarrabah":"2329697053", "Vex Mythoclast":"2300465938"
     }
 #Enum of what the "state" key means
-collectibleState = {0:"Acquired", 1:"Not Acquired", 2:"Obscured", 4:"Invisible", 8:"Cannot Afford Material Requirements", 16:"Inventory Space Unavailable", 32:"Uniqueness Violation", 64:"Purchase Disabled"}
+collectibleState = {0:"Acquired", 1:"Not Acquired", 2:"Obscured", 4:"Invisible", 5:"Not Released", 8:"Cannot Afford Material Requirements", 16:"Inventory Space Unavailable", 32:"Uniqueness Violation", 64:"Purchase Disabled"}
 
 
 #This is the location of the collections menu incase I forget
