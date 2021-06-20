@@ -39,7 +39,7 @@ userActivity.json
 ```javascript
 {
     "ActiveRoleExpireTime": 604800, //Number of seconds until the active role expires. Is set to 1 week by default
-    "version": 1.0,
+    "version": 3,
     "users": {
         
     }
